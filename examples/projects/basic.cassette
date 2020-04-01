@@ -1,0 +1,28 @@
+page /
+    .title "page title"
+
+    row
+        h1 "hello!"
+
+    jumbotron
+        .headline "an example header"
+    
+    main-body
+        .content markdown(./main.md)
+        .cta "click here!"
+
+layout jumbotron
+    row
+        h1 .headline
+
+layout main-body
+    row
+        row
+            style
+                color: red
+            p .content
+
+        row centered
+            button .cta
+
+// internally, a large data structure is being formed representing the entire site and all of its dependencies.

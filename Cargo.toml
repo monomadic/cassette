@@ -1,0 +1,9 @@
+[package]
+name = "cassette"
+version = "0.1.0"
+authors = ["nom <deathdisco@protonmail.com>"]
+edition = "2018"
+
+[dependencies]
+templar = { path = "../templar" }
+failure = "0.1.7"

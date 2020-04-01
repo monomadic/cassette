@@ -1,0 +1,28 @@
+state
+    .title "My Page"
+
+    .menu-items
+        - home: link(/)
+        - about: link(/about)
+
+    .jumbotron
+        .title "Hello welcome!"
+        .cta-button "Thanks"
+
+page "/"
+    title .title
+    
+    row
+        header .title
+
+layout big-header
+    row
+        h1 .title
+    row centered
+        button .cta-button
+
+style big-header
+    background-color blue
+
+style *
+    font font(myfont.otf)
