@@ -14,8 +14,8 @@ fn main() {
 }
 
 fn run() -> Result<(), Box<dyn std::error::Error>> {
-    let file_content    = files::read_file(std::path::PathBuf::from("examples/projects/mvp.cassette"))?;
-    let (_, nodes)     = templar::parser::run(&file_content).unwrap();
+    let file_content = files::read_file(std::path::PathBuf::from("examples/projects/mvp.cassette"))?;
+    let (_, nodes) = templar::parser::run(&format!("{}\n", file_content)).unwrap();
     // println!("result: {:?}", e);
     // let interpreter     = interpreter::CassetteInterpreter::new();
 
