@@ -1,4 +1,4 @@
-render /
+render "/"
     .title "page title"
 
     page-section
