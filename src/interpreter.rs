@@ -19,7 +19,7 @@ impl CassetteInterpreter {
 
                     // finally, execute the block
                     // println!("-- {}", ident);
-                    self.execute(&ident)?;
+                    self.execute(&ident, properties)?;
                 },
                 _ => (),
             }
@@ -28,11 +28,7 @@ impl CassetteInterpreter {
         Ok(())
     }
 
-    // fn variable_assignment(assignment: ) {
-
-    // }
-
-    fn execute(&self, function_name: &str) -> CassetteResult<()> {
+    fn execute(&self, function_name: &str, properties: Vec<Property>) -> CassetteResult<()> {
         match(function_name) {
             "h1" => println!("h1 printed"),
             _ => return Err(Box::new(CassetteError::FunctionNotFound(function_name.to_string()))),

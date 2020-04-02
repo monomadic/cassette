@@ -1,25 +1,3 @@
-render "/"
-    .title "page title"
-
-    page-section
-        .headline "an example header"
-    
-    main-body
-        .content markdown(./main.md)
-        .cta "click here!"
-
-layout page-section
-    block row
-        h1 .headline
-
-layout main-body
-    block row
-        block row
-            style
-                color: red
-            p .content
-
-        block row centered
-            button .cta
-
-// internally, a large data structure is being formed representing the entire site and all of its dependencies.
+html
+    body
+        h1 "hello"
