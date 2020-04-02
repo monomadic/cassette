@@ -9,7 +9,7 @@ pub(crate) use models::*;
 fn main() {
     match run() {
         Ok(_) => println!("\n\ndone."),
-        Err(e) => println!("\n\nerror: {}", e),
+        Err(e) => println!("\n\nERROR: {}", e),
     }
 }
 
@@ -28,7 +28,9 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
 
     use std::io::{self, Write};
     let mut stdout = io::stdout();
-    writer::write_html(&mut stdout, nodes)?;
+    // writer::write_html(&mut stdout, nodes)?;
+
+    interpreter::interpret_node_tree(nodes)?;
 
     Ok(())
 }

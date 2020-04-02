@@ -7,13 +7,22 @@ pub struct Project {
     documents: Vec<HtmlDocument>,
 }
 
+impl Project {
+    pub fn new() -> Self {
+        Project {
+            styles: HashMap::new(),
+            documents: Vec::new(),
+        }
+    }
+}
+
 struct Style {
     property: String,
     rule: String,
 }
 
-struct HtmlDocument {
-    includes: Vec<FileInclude>,
+pub struct HtmlDocument {
+    // includes: Vec<FileInclude>,
     path: String,
     title: String,
     tags: Vec<HtmlTag>,
