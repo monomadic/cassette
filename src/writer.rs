@@ -9,6 +9,7 @@ pub fn write_project(project: Project, directory: String) -> CassetteResult<()> 
 }
 
 pub(crate) fn write_html_file(_file: &str, nodes: Vec<Node>) -> CassetteResult<()> {
+    // println!("--{:#?}", nodes);
     use std::io::{self, Write};
     let mut stdout = io::stdout();
     writer::write_html(&mut stdout, nodes)?;

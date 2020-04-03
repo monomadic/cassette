@@ -1,6 +1,9 @@
 page "/index.html"
-    div
+    div hello
         .text "hi"
-        h1 "hello"
+        h1
             .text "hello"
             .color red
+    div
+        .text "another"
+    .text "after h1"
