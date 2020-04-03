@@ -1,2 +1,6 @@
-page "/"
-    h1 "hello"
+page "/index.html"
+    div
+        .text "hi"
+        h1 "hello"
+            .text "hello"
+            .color red

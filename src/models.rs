@@ -39,3 +39,9 @@ struct HtmlTag {
     terminated: bool,
     content: Vec<HtmlTag>,
 }
+
+// struct Command {
+//     description: String,
+//     arguments: Vec<templar::Parameter>,
+//     execution: Box<Fn()>,
+// }

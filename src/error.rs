@@ -16,7 +16,7 @@ impl fmt::Display for CassetteError {
         match *self {
             // TemplarError::IoError(ref e) => write!(f, "IO error: {}", e),
             CassetteError::UnknownBlock(ref t) => write!(f, "Unknown Block Type: {}", t),
-            CassetteError::ParameterMissing(ref n, ref p) => write!(f, "Node {} was missing required parameter: {}", n, p),
+            CassetteError::ParameterMissing(ref n, ref p) => write!(f, "Node '{}' is missing a required parameter: {}", n, p),
         }
     }
 }

@@ -1,4 +1,12 @@
 page "/"
+    h1 "hello"
+    bigheader
+
+bigheader .content: string
+    tag: div
+    script: file(bigheader.js)
+
+page "/"
     .title "page title"
 
     row
