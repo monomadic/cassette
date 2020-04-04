@@ -8,14 +8,16 @@ pub(crate) use models::*;
 
 fn main() {
     match run() {
-        Ok(_) => println!("\n\ndone."),
+        Ok(_) => println!("\n"),
         Err(e) => println!("\n\nERROR: {}", e),
     }
 }
 
 fn run() -> Result<(), Box<dyn std::error::Error>> {
-    let file_content = files::read_file(std::path::PathBuf::from("examples/projects/mvp.cassette"))?;
+    let file_content = files::read_file(std::path::PathBuf::from("examples/projects/functions.cassette"))?;
     let (_, nodes) = templar::parser::run(&format!("{}\n", file_content)).unwrap();
+    let nodes = templar::preprocessor::run(nodes);
+
     // println!("result: {:?}", e);
     // let interpreter     = interpreter::CassetteInterpreter::new();
 
@@ -30,7 +32,7 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
     let mut stdout = io::stdout();
     // writer::write_html(&mut stdout, nodes)?;
 
-    interpreter::interpret_node_tree(nodes)?;
+    // interpreter::interpret_node_tree(nodes)?;
 
     Ok(())
 }

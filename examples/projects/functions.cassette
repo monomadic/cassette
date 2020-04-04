@@ -1,0 +1,6 @@
+print "hello, world"
+
+example "I'm inside a function!"
+
+:example .text .another
+    print .text

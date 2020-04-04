@@ -4,10 +4,11 @@ use crate::*;
 pub(crate) fn interpret_node_tree(nodes: Vec<Node>) -> CassetteResult<Project> {
     let mut project = Project::new();
 
-    // FIRST PASS: remove resource (global style, script, file) nodes from the tree
+    // FIRST PASS: remove resource nodes and function declarations from the tree
+    println!("nodes: {:#?}", nodes);
 
     // SECOND PASS: render html documents remaining
-    println!("{:#?}", &nodes);
+    // println!("{:#?}", &nodes);
     // these are all top level nodes, which can be a different instruction set to lower level nodes.
     for node in nodes {
         match node {
@@ -18,18 +19,19 @@ pub(crate) fn interpret_node_tree(nodes: Vec<Node>) -> CassetteResult<Project> {
                 // finally, execute the block
                 // execute_block(ident, properties)?;
 
-                match &*ident {
-                    "page" => {
-                        let file = get_string_property_at(properties, 0)?; // fix this soon to use unwound nodes
-                        // let file = properties.get(0).expect(&format!("file missing: {:?}", properties));
+                call_function(&ident, properties.clone())?;
 
-                        writer::write_html_file(&file, children)?;
+                // match &*ident {
+                //     "page" => {
+                //         let file = get_string_property_at(properties, 0)?; // fix this soon to use unwound nodes
+                //         // let file = properties.get(0).expect(&format!("file missing: {:?}", properties));
 
-                        
-                        // project.documents.push(interpret_html_file(children)?);
-                    },
-                    _ => return Err(Box::new(CassetteError::UnknownBlock(ident))),
-                }
+                //         writer::write_html_file(&file, children)?;
+
+                //         // project.documents.push(interpret_html_file(children)?);
+                //     },
+                //     _ => return Err(Box::new(CassetteError::UnknownBlock(ident))),
+                // }
                 
             },
             _ => (),
@@ -37,6 +39,23 @@ pub(crate) fn interpret_node_tree(nodes: Vec<Node>) -> CassetteResult<Project> {
     }
 
     Ok(project)
+}
+
+fn call_function(ident: &str, args: Vec<Property>) -> CassetteResult<()> {
+    match &*ident {
+        "print" => println!("{}", get_property_at(args.clone(), 0)?),
+        _ => (),
+    };
+    println!("calling function: {} {:?}", ident, args);
+    Ok(())
+}
+
+fn get_property_at(properties: Vec<Property>, pos: usize) -> CassetteResult<Property> {
+    if let Some(s) = properties.get(0) {
+        return Ok(s.clone());
+    } else {
+        return Err(Box::new(CassetteError::UnknownBlock(format!("failed to get param at position {}", 0))));
+    }
 }
 
 fn get_string_property_at(properties: Vec<Property>, pos: usize) -> CassetteResult<String> {

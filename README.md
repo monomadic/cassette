@@ -69,3 +69,5 @@ shorthand:
 ```
 index: expanded-x, fixed-height(30) ; "My Site"
 ```
+
+https://amethyst.rs/doc

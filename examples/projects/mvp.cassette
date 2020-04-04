@@ -1,9 +1,17 @@
 page "/index.html"
-    div hello
-        .text "hi"
-        h1
-            .text "hello"
-            .color red
-    div
-        .text "another"
-    .text "after h1"
+    html
+        body
+            div hello
+                "hey"
+                h1
+                    .text "hello"
+                    .text-color red
+                    .text " hello again"
+
+            div
+                .text "another"
+            .text "after h1"
+
+page "/hi.html"
+    h1 .hey
+        "hello"
