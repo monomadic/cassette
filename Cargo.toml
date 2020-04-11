@@ -7,3 +7,4 @@ edition = "2018"
 [dependencies]
 templar = { path = "../templar" }
 failure = "0.1.7"
+structopt = "0.3"

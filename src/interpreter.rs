@@ -1,7 +1,7 @@
 use templar::*;
 use crate::*;
 
-pub(crate) fn interpret_node_tree(nodes: Vec<Node>) -> CassetteResult<Project> {
+pub(crate) fn run(nodes: Vec<UnwoundNode>) -> CassetteResult<Project> {
     let mut project = Project::new();
 
     // FIRST PASS: remove resource nodes and function declarations from the tree
@@ -11,37 +11,14 @@ pub(crate) fn interpret_node_tree(nodes: Vec<Node>) -> CassetteResult<Project> {
     // println!("{:#?}", &nodes);
     // these are all top level nodes, which can be a different instruction set to lower level nodes.
     for node in nodes {
-        match node {
-            Node::Block { ident, properties, children } => {
-                // cascade variables down the chain
-                // execute children first (leaf nodes up)
-                // interpret_node_tree(children)?;
-                // finally, execute the block
-                // execute_block(ident, properties)?;
-
-                call_function(&ident, properties.clone())?;
-
-                // match &*ident {
-                //     "page" => {
-                //         let file = get_string_property_at(properties, 0)?; // fix this soon to use unwound nodes
-                //         // let file = properties.get(0).expect(&format!("file missing: {:?}", properties));
-
-                //         writer::write_html_file(&file, children)?;
-
-                //         // project.documents.push(interpret_html_file(children)?);
-                //     },
-                //     _ => return Err(Box::new(CassetteError::UnknownBlock(ident))),
-                // }
-                
-            },
-            _ => (),
-        }
+        println!("{}({:?})", node.ident, node.properties);
+        call(&node.ident, node.properties)?;
     }
 
     Ok(project)
 }
 
-fn call_function(ident: &str, args: Vec<Property>) -> CassetteResult<()> {
+fn call(ident: &str, args: Vec<Property>) -> CassetteResult<()> {
     match &*ident {
         "print" => println!("{}", get_property_at(args.clone(), 0)?),
         _ => (),
