@@ -1,8 +1,7 @@
-html
-    body
-        div hello
-        "hello"
-        block
+page "index.html"
+    h1 "hello"
 
-:block
-    div "poop"
+:h1 .text
+    .type "h1"
+    tag
+        .type "h1"

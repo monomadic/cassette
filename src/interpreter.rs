@@ -4,6 +4,8 @@ use std::collections::HashMap;
 use std::io::{self, Write};
 
 pub(crate) fn run(nodes: Vec<UnwoundNode>) -> CassetteResult<Project> {
+    use std::io::{self, Write};
+    let mut stdout = io::stdout();
     let mut project = Project::new();
 
     // extract html outputs
@@ -14,15 +16,11 @@ pub(crate) fn run(nodes: Vec<UnwoundNode>) -> CassetteResult<Project> {
 
     // extract file outputs
 
-    println!("DEBUG: {:?}", nodes);
+    println!("NODES: {:#?}\n", nodes);
 
     for node in nodes {
-        //println!("{}({:?})", node.ident, node.properties);
-        //call(&node.ident, node.locals)?;
-
-        if node.ident == "html" {
-            use std::io::{self, Write};
-            let mut stdout = io::stdout();
+        if node.ident == "page" {
+            // set a new writer
             write_html(&mut stdout, node)?;
         }
     }
@@ -30,13 +28,24 @@ pub(crate) fn run(nodes: Vec<UnwoundNode>) -> CassetteResult<Project> {
     Ok(project)
 }
 
+// fn do_node<W: Write>(writer: &mut W, node: UnwoundNode) -> CassetteResult<()> {
+//     // if node.ident = "page"
+// }
+
 fn write_html<W: Write>(writer: &mut W, node: UnwoundNode) -> CassetteResult<()> {
     // note: account for inline styles + js
-    writer.write(&format!("<{}{}>", node.ident, inline_styles(&node.children)?).as_bytes());
+    if node.ident == "tag" {
+        let tag_type = node.get_local("type").ok_or(CassetteError::LocalNotFound(String::from("type")))?;
+        writer.write(&format!("<{}{}>", tag_type,
+            inline_styles(&node.children)?
+        ).as_bytes());
+    }
     for child in node.children {
         write_html(writer, child)?;
     }
-    writer.write(&format!("</{}>", node.ident).as_bytes());
+    if node.ident == "tag" {
+        writer.write(&format!("</{}>", node.ident).as_bytes());
+    }
 
     Ok(())
 }
