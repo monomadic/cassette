@@ -1,0 +1,5 @@
+:html
+    tag "HTML"
+
+:div .text
+    tag "DIV"

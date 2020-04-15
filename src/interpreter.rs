@@ -1,38 +1,65 @@
 use templar::*;
 use crate::*;
+use std::collections::HashMap;
+use std::io::{self, Write};
 
 pub(crate) fn run(nodes: Vec<UnwoundNode>) -> CassetteResult<Project> {
     let mut project = Project::new();
 
-    // FIRST PASS: remove resource nodes and function declarations from the tree
-    println!("nodes: {:#?}", nodes);
+    // extract html outputs
 
-    // SECOND PASS: render html documents remaining
-    // println!("{:#?}", &nodes);
-    // these are all top level nodes, which can be a different instruction set to lower level nodes.
+    // extract css outputs
+
+    // extract js outputs
+
+    // extract file outputs
+
+    println!("DEBUG: {:?}", nodes);
+
     for node in nodes {
-        println!("{}({:?})", node.ident, node.properties);
-        call(&node.ident, node.properties)?;
+        //println!("{}({:?})", node.ident, node.properties);
+        //call(&node.ident, node.locals)?;
+
+        if node.ident == "html" {
+            use std::io::{self, Write};
+            let mut stdout = io::stdout();
+            write_html(&mut stdout, node)?;
+        }
     }
 
     Ok(project)
 }
 
-fn call(ident: &str, args: Vec<Property>) -> CassetteResult<()> {
-    match &*ident {
-        "print" => println!("{}", get_property_at(args.clone(), 0)?),
-        _ => (),
-    };
-    println!("calling function: {} {:?}", ident, args);
+fn write_html<W: Write>(writer: &mut W, node: UnwoundNode) -> CassetteResult<()> {
+    // note: account for inline styles + js
+    writer.write(&format!("<{}{}>", node.ident, inline_styles(&node.children)?).as_bytes());
+    for child in node.children {
+        write_html(writer, child)?;
+    }
+    writer.write(&format!("</{}>", node.ident).as_bytes());
+
     Ok(())
 }
 
-fn get_property_at(properties: Vec<Property>, pos: usize) -> CassetteResult<Property> {
-    if let Some(s) = properties.get(0) {
-        return Ok(s.clone());
-    } else {
-        return Err(Box::new(CassetteError::UnknownBlock(format!("failed to get param at position {}", 0))));
-    }
+fn inline_styles(children: &Vec<UnwoundNode>) -> CassetteResult<String>  {
+    Ok("".into())
+}
+// /// recursively scan the tree and call a callback on any matches
+// fn scan(ident: &str, cb: fn) -> Result<(), CassetteError> {
+
+// }
+
+fn call(ident: &str, args: HashMap<String, Property>) -> Result<(), CassetteError> {
+    match &*ident {
+        "print" => println!("{}", get_local("text", &args)?),
+        _ => { return Err(CassetteError::FunctionNotFound(ident.into())); },
+    };
+
+    Ok(())
+}
+
+fn get_local(ident: &str, args: &HashMap<String, Property>) -> Result<Property, CassetteError> {
+    args.get(ident).map(|p|p.clone()).ok_or(CassetteError::LocalNotFound(ident.into()))
 }
 
 fn get_string_property_at(properties: Vec<Property>, pos: usize) -> CassetteResult<String> {
@@ -52,43 +79,3 @@ fn interpret_html_file(nodes: Vec<Node>) -> CassetteResult<HtmlDocument> {
 fn param_require(params: Vec<Property>, param: &str) -> CassetteResult<String> {
     Ok(" ".into())
 }
-
-// fn execute_block(ident: &str, properties: Vec<Property>) -> CassetteResult<()> {
-// }
-
-
-// pub(crate) struct CassetteInterpreter;
-
-// impl CassetteInterpreter {
-
-//     pub fn new() -> Self {
-//         Self {}
-//     }
-
-//     pub fn walk(&self, nodes: Vec<Node>) -> CassetteResult<()> {
-//         for node in nodes {
-//             match node {
-//                 Node::Block { ident, properties, children } => {
-//                     // execute children first (leaf nodes up)
-//                     self.walk(children)?;
-//                     // pass any variables up the chain (or do they go down?)
-
-//                     // finally, execute the block
-//                     // println!("-- {}", ident);
-//                     self.execute(&ident, properties)?;
-//                 },
-//                 _ => (),
-//             }
-//         }
-
-//         Ok(())
-//     }
-
-//     // fn execute(&self, function_name: &str, properties: Vec<Property>) -> CassetteResult<()> {
-//     //     match(function_name) {
-//     //         "h1" => println!("h1 printed"),
-//     //         _ => return Err(Box::new(CassetteError::UnknownBlock(function_name))),
-//     //     };
-//     //     return Ok(())
-//     // }
-// }
