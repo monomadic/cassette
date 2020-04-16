@@ -1,7 +1,5 @@
 page "index.html"
     h1 "hello"
 
-:h1 .text
-    .type "h1"
-    tag
-        .type "h1"
+:h1 tag .text
+    .background red
