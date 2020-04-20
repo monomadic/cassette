@@ -27,6 +27,15 @@ impl XMLNode {
 
         Ok(())
     }
+
+    pub fn to_string(&self) -> CassetteResult<String> {
+
+
+        let mut buffer: Vec<u8> = Vec::new();
+        self.write(&mut buffer)?;
+
+        Ok(String::from_utf8(buffer)?)
+    }
 }
 
 fn get_symbol_property_at(properties: Vec<Property>, pos: usize) -> CassetteResult<String> {

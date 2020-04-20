@@ -4,17 +4,7 @@ use std::collections::HashMap;
 use std::io::{self, Write};
 
 pub(crate) fn run(nodes: Vec<UnwoundNode>) -> CassetteResult<Project> {
-    use std::io::{self, Write};
-    let mut stdout = io::stdout();
     let mut project = Project::new();
-
-    // extract html outputs
-
-    // extract css outputs
-
-    // extract js outputs
-
-    // extract file outputs
 
     println!("NODES: {:#?}\n", nodes);
 
@@ -24,13 +14,15 @@ pub(crate) fn run(nodes: Vec<UnwoundNode>) -> CassetteResult<Project> {
             for child in node.children.clone() {
                 if let Some(child) = extract_html(child)? {
                     project.documents.push(child.clone());
-                    println!("XML: {:#?}", child.clone());
-                    child.write(&mut stdout)?;
+                    // println!("XML: {:#?}", child.clone());
+                    // child.write(&mut stdout)?;
                 }
             }
 
         }
     }
+
+    println!("project: {:#?}", project);
 
     Ok(project)
 }
@@ -100,7 +92,7 @@ fn extract_html(node: UnwoundNode) -> CassetteResult<Option<XMLNode>> { // todo:
                 children: Vec::new(),
             }))
         },
-        _ => (),
+        _ => { return Err(Box::new(CassetteError::LocalNotFound(String::from(node.ident)))); },
     }
 
 

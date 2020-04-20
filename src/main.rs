@@ -24,6 +24,10 @@ fn main() {
     }
 }
 
+pub fn parse_str(i: &str) -> CassetteResult<()> {
+    Ok(())
+}
+
 fn run() -> Result<(), Box<dyn std::error::Error>> {
     let opt = Opt::from_args();
 

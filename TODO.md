@@ -1,5 +1,5 @@
 # Current
-- print child tags
+- basic tests
 - argument references $0 resolve to values in property declarations
 - ensure child blocks are appended in overlays
 
