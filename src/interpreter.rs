@@ -18,19 +18,17 @@ pub(crate) fn run(nodes: Vec<UnwoundNode>) -> CassetteResult<Project> {
 
     println!("NODES: {:#?}\n", nodes);
 
-    for node in nodes {
+    for node in nodes.clone() {
         if node.ident == "page" {
             // set a new writer
-            write_html(&mut stdout, node)?;
+            for child in node.children.clone() {
+                write_html(&mut stdout, node.clone())?; // todo: stop copying so much
+            }
         }
     }
 
     Ok(project)
 }
-
-// fn do_node<W: Write>(writer: &mut W, node: UnwoundNode) -> CassetteResult<()> {
-//     // if node.ident = "page"
-// }
 
 fn write_html<W: Write>(writer: &mut W, node: UnwoundNode) -> CassetteResult<()> {
     // note: account for inline styles + js
@@ -38,13 +36,14 @@ fn write_html<W: Write>(writer: &mut W, node: UnwoundNode) -> CassetteResult<()>
         let tag_type = node.get_local("type").ok_or(CassetteError::LocalNotFound(String::from("type")))?;
         writer.write(&format!("<{}{}>", tag_type,
             inline_styles(&node.children)?
-        ).as_bytes());
+        ).as_bytes())?;
     }
-    for child in node.children {
+    for child in node.children.clone() {
         write_html(writer, child)?;
     }
     if node.ident == "tag" {
-        writer.write(&format!("</{}>", node.ident).as_bytes());
+        let tag_type = node.get_local("type").ok_or(CassetteError::LocalNotFound(String::from("type")))?;
+        writer.write(&format!("</{}>", tag_type).as_bytes())?;
     }
 
     Ok(())

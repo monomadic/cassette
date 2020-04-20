@@ -1,5 +1,8 @@
-page "index.html"
+page "index.html" "Blah"
     h1 "hello"
 
-:h1 tag .text
+:h1 tag
     .background red
+    .type "h1
+    "blah"
+    $1"

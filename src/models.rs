@@ -4,7 +4,7 @@ pub struct Project {
     styles: HashMap<String, Vec<Style>>,
     // scripts: Vec<Script>,
     // files: Vec<PathBuf>,
-    documents: Vec<HtmlDocument>,
+    documents: Vec<XMLFile>,
 }
 
 impl Project {
@@ -21,12 +21,21 @@ struct Style {
     rule: String,
 }
 
-pub struct HtmlDocument {
-    // includes: Vec<FileInclude>,
-    path: String,
-    title: String,
-    tags: Vec<HtmlTag>,
+pub struct XMLFile {
+    path: std::path::PathBuf,
+    nodes: Vec<XMLNode>,
 }
+
+pub struct XMLNode {
+    ident: String,
+    attributes: HashMap<String, Vec<String>>,
+    terminated: bool,
+    children: Vec<XMLNode>,
+}
+
+// impl XMLFile {
+//     pub fn write
+// }
 
 enum FileInclude {
     Style(String),

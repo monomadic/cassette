@@ -1,28 +1,11 @@
-html "/"
-    h1 "hello"
+:layout main
+    row
+        header
+            .header-title
+    row
+        contact
+            .text-contact
 
-h1 .content
-    = tag h1 .content
-    = style h1 "color: red"
-
-html .file
-    = write .file
-
----> interprets to:
-
-= write "/"
-    = tag h1 "hello"
-    = style h1 "color: red"
-
-
-everything needs to unwind itself. wound functions have arguments. unwound do not.
-
-page "/index.html"
-    h1 "hello"
-        .color red
-
-page
-    .file "/index.html"
-    h1
-        .content "hello"
-        .color red
+main "/"
+    .header-title "a web page"
+    .text-contact "Contact Us"
