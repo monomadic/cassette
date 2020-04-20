@@ -32,17 +32,17 @@ pub struct XMLNode {
     pub children: Vec<XMLNode>,
 }
 
-enum FileInclude {
-    Style(String),
-    Script(String),
-}
+// enum FileInclude {
+//     Style(String),
+//     Script(String),
+// }
 
-struct HtmlTag {
-    ident: String,
-    classes: Vec<String>,
-    terminated: bool,
-    content: Vec<HtmlTag>,
-}
+// struct HtmlTag {
+//     ident: String,
+//     classes: Vec<String>,
+//     terminated: bool,
+//     content: Vec<HtmlTag>,
+// }
 
 // struct Command {
 //     description: String,

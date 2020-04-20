@@ -1,14 +1,6 @@
-use std::io::{self, Write};
+use std::io::Write;
 use crate::*;
 use templar::*;
-
-/// writes a project object to files on disk
-pub fn write_project(project: Project, directory: String) -> CassetteResult<()> {
-
-    Ok(())
-}
-
-
 
 impl XMLNode {
     pub fn write<W: Write>(&self, writer: &mut W) -> CassetteResult<()> {

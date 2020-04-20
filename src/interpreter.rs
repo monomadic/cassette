@@ -1,7 +1,6 @@
 use templar::*;
 use crate::*;
 use std::collections::HashMap;
-use std::io::{self, Write};
 
 pub(crate) fn run(nodes: Vec<UnwoundNode>) -> CassetteResult<Project> {
     let mut project = Project::new();
@@ -27,9 +26,9 @@ pub(crate) fn run(nodes: Vec<UnwoundNode>) -> CassetteResult<Project> {
     Ok(project)
 }
 
-fn inline_styles(children: &Vec<UnwoundNode>) -> CassetteResult<String>  {
-    Ok("".into())
-}
+// fn inline_styles(children: &Vec<UnwoundNode>) -> CassetteResult<String>  {
+//     Ok("".into())
+// }
 // /// recursively scan the tree and call a callback on any matches
 // fn scan(ident: &str, cb: fn) -> Result<(), CassetteError> {
 
@@ -58,9 +57,9 @@ fn get_string_property_at(properties: Vec<Property>, pos: usize) -> CassetteResu
 }
 
 // note: upon extracting a series of html files, we need to post process to extract styles (inline and stdlib)
-fn extract_html(node: UnwoundNode) -> CassetteResult<Option<XMLNode>> { // todo: should be result-option
+fn extract_html(node: UnwoundNode) -> CassetteResult<Option<XMLNode>> {
     // note: account for inline styles + js
-    println!("printing {:?}", node);
+    // println!("printing {:?}", node);
 
     match &(*node.ident) {
         "tag" => {
@@ -92,13 +91,14 @@ fn extract_html(node: UnwoundNode) -> CassetteResult<Option<XMLNode>> { // todo:
                 children: Vec::new(),
             }))
         },
-        _ => { return Err(Box::new(CassetteError::LocalNotFound(String::from(node.ident)))); },
-    }
+        // _ => { return Err(Box::new(CassetteError::LocalNotFound(String::from(node.ident)))); },
+        _ => ()
+    };
 
 
     Ok(None) // intentional. no errors found, but also no nodes.
 }
 
-fn param_require(params: Vec<Property>, param: &str) -> CassetteResult<String> {
-    Ok(" ".into())
-}
+// fn param_require(params: Vec<Property>, param: &str) -> CassetteResult<String> {
+//     Ok(" ".into())
+// }

@@ -11,6 +11,7 @@ const OUTPUT_1: &str = "<h1>header text</h1>";
 #[test]
 fn check_basic_tag() {
     let project = cassette::parse_str(INPUT_1);
+    println!("{:?}", project);
 
     assert!(project.is_ok());
     let project = project.unwrap();

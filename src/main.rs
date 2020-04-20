@@ -1,13 +1,8 @@
-mod files;
-mod error;
-mod interpreter;
-mod writer;
-mod models;
-pub use error::*;
-pub(crate) use models::*;
-
+use cassette::*;
 use std::path::PathBuf;
 use structopt::StructOpt;
+
+mod files;
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "cassette")]
@@ -24,34 +19,15 @@ fn main() {
     }
 }
 
-pub fn parse_str(i: &str) -> CassetteResult<()> {
-    Ok(())
-}
-
 fn run() -> Result<(), Box<dyn std::error::Error>> {
     let opt = Opt::from_args();
-
     let file_content = files::read_file(opt.source)?;
-    let (_, nodes) = templar::parser::run(&format!("{}\n", file_content)).unwrap();
-    let nodes = templar::postprocessor::run(nodes)?;
 
-    // println!("result: {:?}", e);
-    let project = interpreter::run(nodes);
+    let project = cassette::parse_str(&format!("{}\n", file_content))?;
 
-    println!("nodes: {:?}", project);
-
-    // interpreter.walk(result)?;
-    // let graph           = templar::interpreter::run(result)?;
-    // let output          = generator::run(graph)?;
-    // let _               = output.write_all()?;
-
-    // println!("{:#?}", templar::interpreter::run(result));
-
-    use std::io::{self, Write};
-    let mut stdout = io::stdout();
-    // writer::write_html(&mut stdout, nodes)?;
-
-    // interpreter::interpret_node_tree(nodes)?;
+    for document in project.documents {
+        println!("{}", document.to_string()?);
+    }
 
     Ok(())
 }

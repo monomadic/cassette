@@ -1,7 +1,6 @@
 use std::error;
-use std::io;
 
-pub type CassetteResult<T> = Result<T, Box<dyn std::error::Error>>;
+// pub type CassetteResult<T> = Result<T, Box<dyn std::error::Error>>;
 
 #[derive(Debug)]
 pub enum CassetteError {
