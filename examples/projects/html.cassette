@@ -3,6 +3,6 @@ page "index.html" "Blah"
 
 :h1 tag
     .background red
-    .type "h1
+    .type "h1"
     "blah"
-    $1"
+    $1

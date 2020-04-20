@@ -1,10 +1,11 @@
 use std::collections::HashMap;
 
+#[derive(Debug)]
 pub struct Project {
     styles: HashMap<String, Vec<Style>>,
     // scripts: Vec<Script>,
     // files: Vec<PathBuf>,
-    documents: Vec<XMLFile>,
+    pub documents: Vec<XMLNode>,
 }
 
 impl Project {
@@ -16,21 +17,18 @@ impl Project {
     }
 }
 
+#[derive(Debug)]
 struct Style {
     property: String,
     rule: String,
 }
 
-pub struct XMLFile {
-    path: std::path::PathBuf,
-    nodes: Vec<XMLNode>,
-}
-
+#[derive(Debug)]
 pub struct XMLNode {
-    ident: String,
-    attributes: HashMap<String, Vec<String>>,
-    terminated: bool,
-    children: Vec<XMLNode>,
+    pub ident: String,
+    pub attributes: HashMap<String, Vec<String>>,
+    pub terminated: bool,
+    pub children: Vec<XMLNode>,
 }
 
 // impl XMLFile {

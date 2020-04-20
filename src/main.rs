@@ -32,7 +32,9 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
     let nodes = templar::postprocessor::run(nodes)?;
 
     // println!("result: {:?}", e);
-    let interpreter = interpreter::run(nodes);
+    let project = interpreter::run(nodes);
+
+    println!("nodes: {:?}", project);
 
     // interpreter.walk(result)?;
     // let graph           = templar::interpreter::run(result)?;

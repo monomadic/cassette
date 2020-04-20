@@ -22,7 +22,9 @@ pub(crate) fn run(nodes: Vec<UnwoundNode>) -> CassetteResult<Project> {
         if node.ident == "page" {
             // set a new writer
             for child in node.children.clone() {
-                write_html(&mut stdout, node.clone())?; // todo: stop copying so much
+                if let Some(child) = extract_html(child)? {
+                    project.documents.push(child);
+                }
             }
         }
     }
@@ -80,8 +82,41 @@ fn get_string_property_at(properties: Vec<Property>, pos: usize) -> CassetteResu
 }
 
 // note: upon extracting a series of html files, we need to post process to extract styles (inline and stdlib)
-fn interpret_html_file(nodes: Vec<Node>) -> CassetteResult<HtmlDocument> {
-    return Err(Box::new(CassetteError::ParameterMissing("ident".into(), "output_file".into())));
+fn extract_html(node: UnwoundNode) -> CassetteResult<Option<XMLNode>> { // todo: should be result-option
+    // note: account for inline styles + js
+    println!("TAG: {:?}", node);
+
+    match &(*node.ident) {
+        "tag" => {
+            let ident = node.get_local("type").ok_or(CassetteError::LocalNotFound(String::from("type")))?;
+            let mut children = Vec::new();
+
+            for child in node.children {
+                if let Some(child) = extract_html(child)? {
+                    children.push(child);
+                }
+            }
+
+            return Ok(Some(XMLNode {
+                ident: format!("{}", ident),
+                attributes: HashMap::new(),
+                terminated: false,
+                children
+            }));
+        },
+        "_TEXT" => {
+            return Ok(Some(XMLNode {
+                ident: "_TEXT".into(),
+                attributes: HashMap::new(),
+                terminated: false,
+                children: Vec::new(),
+            }))
+        },
+        _ => (),
+    }
+
+
+    Ok(None) // intentional. no errors found, but also no nodes.
 }
 
 fn param_require(params: Vec<Property>, param: &str) -> CassetteResult<String> {
