@@ -15,6 +15,12 @@ pub(crate) fn write_html_file(_file: &str, nodes: Vec<Node>) -> CassetteResult<(
     Ok(())
 }
 
+impl XMLNode {
+    pub fn write<W: Write>(&self, writer: W) -> CassetteResult<()> {
+
+    }
+}
+
 // /// this will be deleted.
 pub fn write_html<W>(writer: &mut W, nodes: Vec<Node>) -> CassetteResult<()>
     where W : Write {

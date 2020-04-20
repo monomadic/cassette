@@ -31,10 +31,6 @@ pub struct XMLNode {
     pub children: Vec<XMLNode>,
 }
 
-// impl XMLFile {
-//     pub fn write
-// }
-
 enum FileInclude {
     Style(String),
     Script(String),
