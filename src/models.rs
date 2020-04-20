@@ -23,11 +23,12 @@ struct Style {
     rule: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct XMLNode {
     pub ident: String,
     pub attributes: HashMap<String, Vec<String>>,
     pub terminated: bool,
+    pub text: String,
     pub children: Vec<XMLNode>,
 }
 

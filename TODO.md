@@ -1,4 +1,5 @@
 # Current
+- print child tags
 - argument references $0 resolve to values in property declarations
 - ensure child blocks are appended in overlays
 
@@ -6,3 +7,7 @@
 - should throw an error if code didn't fully parse
 - support for typed args (symbols)
 - parser tests
+
+# Goals
+- print html documents with type/tag checking
+- aggregate stylesheets into single file with zero orphans

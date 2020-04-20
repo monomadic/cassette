@@ -23,32 +23,16 @@ pub(crate) fn run(nodes: Vec<UnwoundNode>) -> CassetteResult<Project> {
             // set a new writer
             for child in node.children.clone() {
                 if let Some(child) = extract_html(child)? {
-                    project.documents.push(child);
+                    project.documents.push(child.clone());
+                    println!("XML: {:#?}", child.clone());
+                    child.write(&mut stdout)?;
                 }
             }
+
         }
     }
 
     Ok(project)
-}
-
-fn write_html<W: Write>(writer: &mut W, node: UnwoundNode) -> CassetteResult<()> {
-    // note: account for inline styles + js
-    if node.ident == "tag" {
-        let tag_type = node.get_local("type").ok_or(CassetteError::LocalNotFound(String::from("type")))?;
-        writer.write(&format!("<{}{}>", tag_type,
-            inline_styles(&node.children)?
-        ).as_bytes())?;
-    }
-    for child in node.children.clone() {
-        write_html(writer, child)?;
-    }
-    if node.ident == "tag" {
-        let tag_type = node.get_local("type").ok_or(CassetteError::LocalNotFound(String::from("type")))?;
-        writer.write(&format!("</{}>", tag_type).as_bytes())?;
-    }
-
-    Ok(())
 }
 
 fn inline_styles(children: &Vec<UnwoundNode>) -> CassetteResult<String>  {
@@ -84,7 +68,7 @@ fn get_string_property_at(properties: Vec<Property>, pos: usize) -> CassetteResu
 // note: upon extracting a series of html files, we need to post process to extract styles (inline and stdlib)
 fn extract_html(node: UnwoundNode) -> CassetteResult<Option<XMLNode>> { // todo: should be result-option
     // note: account for inline styles + js
-    println!("TAG: {:?}", node);
+    println!("printing {:?}", node);
 
     match &(*node.ident) {
         "tag" => {
@@ -98,17 +82,21 @@ fn extract_html(node: UnwoundNode) -> CassetteResult<Option<XMLNode>> { // todo:
             }
 
             return Ok(Some(XMLNode {
-                ident: format!("{}", ident),
+                ident: ident.to_string(),
                 attributes: HashMap::new(),
                 terminated: false,
+                text: String::new(),
                 children
             }));
         },
         "_TEXT" => {
+            let text = node.get_local("text").ok_or(CassetteError::LocalNotFound(String::from("text")))?;
+
             return Ok(Some(XMLNode {
                 ident: "_TEXT".into(),
                 attributes: HashMap::new(),
                 terminated: false,
+                text: text.to_string(),
                 children: Vec::new(),
             }))
         },

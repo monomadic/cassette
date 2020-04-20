@@ -1,8 +1,12 @@
 page "index.html" "Blah"
     h1 "hello"
+        p "hi"
 
 :h1 tag
     .background red
     .type "h1"
-    "blah"
-    $1
+    "blah: "
+
+:p tag
+    .type "p"
+    .text "hello"
