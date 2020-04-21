@@ -34,27 +34,27 @@ pub(crate) fn run(nodes: Vec<UnwoundNode>) -> CassetteResult<Project> {
 
 // }
 
-fn call(ident: &str, args: HashMap<String, Property>) -> Result<(), CassetteError> {
-    match &*ident {
-        "print" => println!("{}", get_local("text", &args)?),
-        _ => { return Err(CassetteError::FunctionNotFound(ident.into())); },
-    };
+// fn call(ident: &str, args: HashMap<String, Property>) -> Result<(), CassetteError> {
+//     match &*ident {
+//         "print" => println!("{}", get_local("text", &args)?),
+//         _ => { return Err(CassetteError::FunctionNotFound(ident.into())); },
+//     };
 
-    Ok(())
-}
+//     Ok(())
+// }
 
-fn get_local(ident: &str, args: &HashMap<String, Property>) -> Result<Property, CassetteError> {
-    args.get(ident).map(|p|p.clone()).ok_or(CassetteError::LocalNotFound(ident.into()))
-}
+// fn get_local(ident: &str, args: &HashMap<String, Property>) -> Result<Property, CassetteError> {
+//     args.get(ident).map(|p|p.clone()).ok_or(CassetteError::LocalNotFound(ident.into()))
+// }
 
-fn get_string_property_at(properties: Vec<Property>, pos: usize) -> CassetteResult<String> {
-    if let Some(Property::QuotedString(s)) = properties.get(0) {
-        return Ok(s.into());
-    } else {
-        // fix this
-        return Err(Box::new(CassetteError::UnknownBlock(format!("failed to get string at position {}", 0))));
-    }
-}
+// fn get_string_property_at(properties: Vec<Property>, pos: usize) -> CassetteResult<String> {
+//     if let Some(Property::QuotedString(s)) = properties.get(0) {
+//         return Ok(s.into());
+//     } else {
+//         // fix this
+//         return Err(Box::new(CassetteError::UnknownBlock(format!("failed to get string at position {}", 0))));
+//     }
+// }
 
 // note: upon extracting a series of html files, we need to post process to extract styles (inline and stdlib)
 fn extract_html(node: UnwoundNode) -> CassetteResult<Option<XMLNode>> {

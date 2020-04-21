@@ -3,9 +3,10 @@ page "index.html" "Blah"
         p "hi"
 
 :h1 tag
+    $1
     .background red
     .type "h1"
-    "blah: "
+    $1
 
 :p tag
     .type "p"

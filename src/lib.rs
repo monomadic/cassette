@@ -1,7 +1,7 @@
 mod error;
 mod interpreter;
-mod writer;
 mod models;
+mod writer;
 pub use error::*;
 pub(crate) use models::*;
 

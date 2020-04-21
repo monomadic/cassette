@@ -1,4 +1,4 @@
 page "index.html" "hello"
-    tag "hello"
+    tag
         .type "h1"
-        $1
+        "content"

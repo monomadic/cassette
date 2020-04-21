@@ -1,6 +1,5 @@
 use std::io::Write;
 use crate::*;
-use templar::*;
 
 impl XMLNode {
     pub fn write<W: Write>(&self, writer: &mut W) -> CassetteResult<()> {
@@ -30,11 +29,11 @@ impl XMLNode {
     }
 }
 
-fn get_symbol_property_at(properties: Vec<Property>, pos: usize) -> CassetteResult<String> {
-    if let Some(Property::QuotedString(s)) = properties.get(0) {
-        return Ok(s.into());
-    } else {
-        // fix this
-        return Err(Box::new(CassetteError::UnknownBlock(format!("failed to get string at position {}", 0))));
-    }
-}
+// fn get_symbol_property_at(properties: Vec<Property>, pos: usize) -> CassetteResult<String> {
+//     if let Some(Property::QuotedString(s)) = properties.get(0) {
+//         return Ok(s.into());
+//     } else {
+//         // fix this
+//         return Err(Box::new(CassetteError::UnknownBlock(format!("failed to get string at position {}", 0))));
+//     }
+// }
