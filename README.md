@@ -1,9 +1,7 @@
 # Cassette
-Declarative web DSL language based on the Templar declarative UI language.
+Declarative web DSL language based on the [Templar](https://github.com/monomadic/templar) declarative UI language.
 
-This project re-thinks how web development might work, disagreeing with some core assumptions about the design of the modern web, taking the Templar methodology and applying it to website generation.
-
-It is compiled, implicitly typed, and makes use of macros, known as overlays. A very basic example of a templar project could look like this:
+Templar is compiled, implicitly typed, and makes use of macros, known as overlays. A very basic example of a templar project could look like this:
 
 ```haml
 page "index.html" "Blah"
@@ -11,7 +9,7 @@ page "index.html" "Blah"
         p "hi"
 ```
 
-Templar makes heavy use of DSLs, and encourages developers to extend these. Each command above (page, h1, p) are actually overlays, which internally tell the compiler what to do with each node. For example in this case, we are generating a single HTML document with a few tags. A single templar document could produce an entire website of multiple pages, styles, and js, all with tight output control and a simple, readable format that allows you to create future abstractions.
+Templar makes heavy use of abstractions called overlays, and encourages developers to extend these. Each command above (page, h1, p) are actually overlays, which internally tell the compiler what to do with each node. For example in this case, we are generating a single HTML document with a few tags. A single templar document could produce an entire website of multiple pages, styles, and js, all with tight output control and a simple, readable format that allows you to create future abstractions.
 
 For example, a more complicated document might look like this:
 
@@ -31,7 +29,7 @@ page "/"
         cta "click here!"
 ```
 
-No, those aren't fancy new html tag specifications. They are overlays, which you may have defined, or they may be available in the standard library. Everything is cleanly abstracted - only css styles that actually get USED are collected into the core stylesheet, and you don't have to think about it.
+No, those aren't fancy new html tag specifications. They are overlays, which you may have defined, or they may be available in the standard library. Everything is cleanly abstracted - only css styles that actually get USED are collected into the core stylesheet.
 
 You can build up your own set of abstractions underneath, and overwrite the standard ones that come with Cassette too.
 
