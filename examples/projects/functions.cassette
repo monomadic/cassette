@@ -1,7 +1,4 @@
-print "hello, world"
-
-example "I'm inside a function!" "Yes!"
-
-:example .text .another
-    print .text
-    print .another
+page "index.html" "hello"
+    tag "hello"
+        .type "h1"
+        $1

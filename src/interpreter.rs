@@ -63,7 +63,9 @@ fn extract_html(node: UnwoundNode) -> CassetteResult<Option<XMLNode>> {
 
     match &(*node.ident) {
         "tag" => {
+            println!("--{:?}", node);
             let ident = node.get_local("type").ok_or(CassetteError::LocalNotFound(String::from("type")))?;
+
             let mut children = Vec::new();
 
             for child in node.children {

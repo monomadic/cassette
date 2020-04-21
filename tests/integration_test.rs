@@ -4,7 +4,7 @@ const INPUT_1:&str = r#"
 page
     tag
         .type "h1"
-        .text "header text""#;
+        "header text""#;
 
 const OUTPUT_1: &str = "<h1>header text</h1>";
 
