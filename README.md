@@ -1,73 +1,77 @@
 # Cassette
-Rapid web frontend generator based on the Templar declarative UI language.
+Declarative web DSL language based on the Templar declarative UI language.
 
 This project re-thinks how web development might work, disagreeing with some core assumptions about the design of the modern web, taking the Templar methodology and applying it to website generation.
 
-Development has become cumbersome and slow due to feature bloat and technology isolation. Taking cue from languages such as elm and moving them even further into a declarative pipeline structure, throwing away flexibility for speed and ease of use, one might arrive at a rapid solution such as this.
+It is compiled, implicitly typed, and makes use of macros, known as overlays. A very basic example of a templar project could look like this:
 
-The modern web separates development into:
-- scripting (javascript)
-- styling and layout (css)
-- content, styling, layout, config (html)
-
-This setup inevitably produces awful convoluted messes.
-
-Templar declarative structures:
-- eliminate a whole class of bugs and code bloat, preventing orphan code and incorrect project states.
-- allow for huge module libraries, while resultant output only includes modules actually used.
-
-## Templar
-
-Cassette renders templar structures, but theoretically it could use a different declarative language that adheres to the same methodology.
-
-## Project Structure
-
-Projects are separated into three declarative structures.
-- layout
-- content
-- style
-
-### Alpha version goals
-- interpret very simple layout structure (styling later?)
-
-layout (no styling)
-- each takes (json? indexmap?) inputs
-- blocks/objects
-	- classes (for styling), patterns/rules (dictate layout patterns)
-	- anonymous
-
-templar(Declarative Code -> AST / node graph -> Templar interpreted structure) -> cassette(renders as html/css/js)
-
-Idea:
-- model/state, layout/interaction, config/styling
-
-Idea:
-- Index module is the core, and internal links write pages. (what about unrelated landing pages?)
-- Optional config file can generate other indexes / pages by linking a new output (which is a templar object).
-
-/layout.templar
-```
-index
-	rules expanded-x fixed-height(30)
-	content "My Site"
+```haml
+page "index.html" "Blah"
+    h1 "hello"
+        p "hi"
 ```
 
-/style.templar
+Templar makes heavy use of DSLs, and encourages developers to extend these. Each command above (page, h1, p) are actually overlays, which internally tell the compiler what to do with each node. For example in this case, we are generating a single HTML document with a few tags. A single templar document could produce an entire website of multiple pages, styles, and js, all with tight output control and a simple, readable format that allows you to create future abstractions.
+
+For example, a more complicated document might look like this:
+
+```haml
+page "/"
+    .title "page title"
+
+    row
+        h1 "hello!"
+			.background red
+
+    jumbotron
+        .headline "an example header"
+    
+    main-body
+        markdown(./main.md)
+        cta "click here!"
 ```
-style expanded-x
-	width 100%
+
+No, those aren't fancy new html tag specifications. They are overlays, which you may have defined, or they may be available in the standard library. Everything is cleanly abstracted - only css styles that actually get USED are collected into the core stylesheet, and you don't have to think about it.
+
+You can build up your own set of abstractions underneath, and overwrite the standard ones that come with Cassette too.
+
+Speaking of which, if we were to expand the default overlays inside the std, they'd look similar to this:
+
+```haml
+page "index.html" "Blah"
+    h1 "hello"
+        p "hi"
+
+:h1 tag
+    .background red
+    .type "h1"
+    $1
+    $0
+
+:p tag
+    .type "p"
+    $1
 ```
 
-/state.templar
+## Style, Layout, and Behavior
+
+Style sheets are painful. Ever have so many orphan styles in a project you have no idea what's being used? Javascript that doesn't play nice with other javascript, and includes way too much? Constantly mess with web font files and syntax? Realise all too late that a CSS rule was mistyped?
+
+None of these are problems in Cassette.
+
+Some inspiration was taken from projects like elm, but it is not designed to be as complex as elm. The ideal user would be someone who wants to rapidly create mostly static or semi-static websites (though support for more dynamic SPAs is coming).
+
+The core of Cassette is a compiler and standard library built on top of the Templar language specifically designed for web work. (Or, in compiler-nerd-speak, if templar was a GCC interpreter, Cassette would be a GCC target).
+
+## Templar/Cassette is NOT:
+
+- a turing complete language
+- production ready (yet)
+
+## Future Work
+
+The rest of this document specifies features that may not yet be in the product here on github, but will be very soon.
 
 
-here, index is essentially a 'function name', with no arguments. inside are function calls, with arguments that are also functions. The goal is to build a large declarative structure with no repetition of things like style rules etc.
-
-"My Site" is treated as an anonymous function that returns a static string.
-
-shorthand:
-```
-index: expanded-x, fixed-height(30) ; "My Site"
-```
 
 https://amethyst.rs/doc
