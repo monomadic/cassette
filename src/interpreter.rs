@@ -28,6 +28,10 @@ fn extract_html(node: UnwoundNode) -> CassetteResult<Option<XMLNode>> {
     match &(*node.ident) {
         "tag" => {
             let ident = node.get_local("type").ok_or(CassetteError::LocalNotFound(String::from("type")))?;
+            let mut attributes: HashMap<String, String> = HashMap::new();
+            if let Some(style) = extract_inline_styles(&node)? {
+                attributes.insert("style".to_string(), style);
+            }
 
             let mut children = Vec::new();
 
@@ -39,7 +43,7 @@ fn extract_html(node: UnwoundNode) -> CassetteResult<Option<XMLNode>> {
 
             return Ok(Some(XMLNode {
                 ident: ident.to_string(),
-                attributes: HashMap::new(),
+                attributes: attributes,
                 terminated: false,
                 text: String::new(),
                 children
@@ -62,4 +66,18 @@ fn extract_html(node: UnwoundNode) -> CassetteResult<Option<XMLNode>> {
 
 
     Ok(None) // intentional. no errors found, but also no nodes.
+}
+
+fn extract_inline_styles(node: &UnwoundNode) -> CassetteResult<Option<String>> {
+    let mut styles = Vec::new();
+
+    if let Some(background_color) = node.get_local("background-color") {
+        styles.push(format!("background-color: {}", background_color));
+    }
+
+    if styles.len() == 0 {
+        return Ok(None);
+    }
+
+    Ok(Some(styles.join("; ")))
 }

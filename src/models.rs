@@ -26,7 +26,7 @@ struct Style {
 #[derive(Debug, Clone)]
 pub struct XMLNode {
     pub ident: String,
-    pub attributes: HashMap<String, Vec<String>>,
+    pub attributes: HashMap<String, String>,
     pub terminated: bool,
     pub text: String,
     pub children: Vec<XMLNode>,

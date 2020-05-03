@@ -8,6 +8,16 @@ impl XMLNode {
             return Ok(());
         }
         writer.write(&format!("<{}", self.ident).as_bytes())?;
+
+        if self.attributes.len() > 0 {
+            writer.write(b" ")?;
+            let attributes = self.attributes.iter().map(|(k,v)| {
+                format!("{}=\"{}\"", k, v)
+            }).collect::<Vec<String>>().join(" ");
+
+            writer.write(attributes.as_bytes())?;
+        }
+
         writer.write(b">")?;
 
         for child in self.children.iter() {

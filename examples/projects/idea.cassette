@@ -1,11 +1,7 @@
-:layout main
-    row
-        header
-            .header-title
-    row
-        contact
-            .text-contact
+page
+    path: "/"
 
-main "/"
-    .header-title "a web page"
-    .text-contact "Contact Us"
+    row @top-nav, height: 40px
+    row
+        h1 Hello
+
