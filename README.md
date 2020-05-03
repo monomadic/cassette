@@ -1,7 +1,7 @@
 # Cassette
 Declarative web DSL language based on the [Templar](https://github.com/monomadic/templar) declarative UI language.
 
-Templar is compiled, implicitly typed, and makes use of macros, known as overlays. A very basic example of a templar project could look like this:
+Templar is compiled, implicitly typed, whitespace significant, and makes use of macros, known as overlays. A very basic example of a templar project could look like this:
 
 ```haml
 page "index.html" "Blah"
