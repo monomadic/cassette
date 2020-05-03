@@ -1,9 +1,12 @@
 page "index.html" "Blah"
     h1 "hello"
         p "hi"
+    p "whoop whoop"
+        p "yar yar"
 
 :h1 tag
-    .background red
+    .background-color red
+    .style "font-weight: bold"
     .type "h1"
     $1
     $0
@@ -11,3 +14,4 @@ page "index.html" "Blah"
 :p tag
     .type "p"
     $1
+    $0
