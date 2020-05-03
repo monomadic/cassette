@@ -1,12 +1,12 @@
 # Cassette
-Declarative web DSL language based on the [Templar](https://github.com/monomadic/templar) declarative UI language.
+Declarative web DSL language for rapidly and safely building static pages and SPAs based on the [Templar](https://github.com/monomadic/templar) declarative UI language.
 
 [![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Minimum rustc version](https://img.shields.io/badge/rustc-1.36.0+-brown.svg)](#rust-version-requirements)
 
 Templar is compiled, implicitly typed, whitespace significant, and makes use of macros, known as overlays. A very basic example of a templar project could look like this:
 
-```haml
+``` yaml
 page "index.html" "Blah"
     h1 "hello"
         p "hi"
