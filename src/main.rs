@@ -9,7 +9,7 @@ mod files;
 struct Opt {
     /// Input file
     #[structopt(short, long, parse(from_os_str))]
-    source: PathBuf,
+    file: PathBuf,
 }
 
 fn main() {
@@ -21,7 +21,7 @@ fn main() {
 
 fn run() -> Result<(), Box<dyn std::error::Error>> {
     let opt = Opt::from_args();
-    let file_content = files::read_file(opt.source)?;
+    let file_content = files::read_file(opt.file)?;
 
     let project = cassette::parse_str(&format!("{}\n", file_content))?;
 
